@@ -1,0 +1,85 @@
+project:
+  name: mwcd-material-classification
+  seed: 42
+
+data:
+  dataset_dir: data/final_merged_dataset
+  class_names:
+    - paper
+    - textile
+    - metal
+    - plastic
+    - organic
+    - glass
+    - hazardous
+    - other
+  class_display_names:
+    paper: Giấy
+    textile: Vải
+    metal: Kim loại
+    plastic: Nhựa
+    organic: Hữu cơ
+    glass: Thủy tinh
+    hazardous: Pin - rác nguy hại
+    other: Rác khác
+  class_sources:
+    paper:
+      - paper
+      - cardboard
+    textile:
+      - textile
+    metal:
+      - metal
+    plastic:
+      - plastic
+    organic:
+      - organic
+    glass:
+      - glass
+    hazardous:
+      - battery
+    other:
+      - trash
+  image_size: 224
+  batch_size: 32
+  test_fraction: 0.2
+  validation_fraction: 0.2
+
+training:
+  epochs: 30
+  patience: 5
+  learning_rate: 0.001
+  fine_tune: false
+  fine_tune_layers: 30
+  fine_tune_learning_rate: 0.00001
+  balanced_finetune_epochs: 8
+  balanced_finetune_patience: 3
+  balanced_class_weight_power: 0.5
+  balanced_min_f1_improvement: 0.005
+  balanced_max_accuracy_drop: 0.02
+  augmentation_rotation: 0.04
+  augmentation_zoom: 0.08
+
+models:
+  cnn:
+    output_dir: models/mwcd_materials
+  mobilenet:
+    output_dir: models/mwcd_materials
+    weights: imagenet
+
+results:
+  output_dir: results/mwcd_materials
+
+continual:
+  output_dir: models/mwcd_materials/continual
+  replay_images_per_class: 100
+  replay_images_per_update: 300
+  max_old_validation_accuracy_drop: 0.03
+  minimum_new_validation_accuracy: 0.3
+
+app:
+  staging_dir: data/mwcd_staging
+  max_upload_mb: 10
+  max_zip_upload_mb: 100
+  max_zip_files: 500
+  max_zip_expansion_factor: 10
